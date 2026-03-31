@@ -1,45 +1,85 @@
-# insurance-claims-prediction-ml
-"End-to-end Machine Learning pipeline for predicting personal auto insurance claim frequency. Features VIF-based multicollinearity checks, automated Scikit-Learn pipelines, and XGBoost hyperparameter optimization to balance precision and recall."
+🚗 Insurance Claims Prediction (ML Pipeline)
 
+End-to-end Machine Learning pipeline for predicting personal auto insurance claim frequency.
+This project focuses on risk-based pricing, combining statistical rigor (VIF) with modern ML techniques (XGBoost, pipelines, hyperparameter tuning).
 
-1. Project Overview
-Goal: Predict the frequency of car insurance claims to assist in risk-based pricing.
-This project benchmarks 10 different machine learning classifiers to identify the most robust model for predicting whether a policyholder will file a claim.
+📌 1. Project Overview
 
-2. Data Cleaning & Feature Engineering
-Handling Multicollinearity: Used Variance Inflation Factor (VIF) to identify and remove redundant features (e.g., 'red_vehicle'), ensuring the model remains stable for pricing.
+Goal:
+Predict whether a policyholder will file a claim, enabling data-driven pricing decisions.
 
-Preprocessing Pipeline: Built a custom Scikit-Learn Pipeline to handle:
+Approach:
 
-Imputation: Using KNNImputer for numerical gaps and SimpleImputer for categories.
+Benchmarked 10 machine learning models
+Used 10-Fold Cross-Validation for robustness
+Focused on model stability + real-world pricing applicability
+🧹 2. Data Cleaning & Feature Engineering
+🔍 Multicollinearity Handling
+Applied Variance Inflation Factor (VIF)
+Removed redundant features (e.g., red_vehicle)
+Ensured model interpretability and pricing stability
+⚙️ Preprocessing Pipeline (Scikit-Learn)
 
-Encoding: OrdinalEncoder for ranked data (Education) and OneHotEncoder for nominal data (Occupation).
+Built a fully automated pipeline:
 
-Scaling: Applied StandardScaler to ensure distance-based models (KNN, SVM) performed fairly.
+Imputation
+KNNImputer → numerical features
+SimpleImputer → categorical features
+Encoding
+OrdinalEncoder → ranked features (e.g., Education)
+OneHotEncoder → nominal features (e.g., Occupation)
+Scaling
+StandardScaler
+Ensured fair performance for distance-based models (KNN, SVM)
+🤖 3. Model Benchmarking
+Compared 10 classifiers
+Used 10-Fold Cross-Validation
 
-3. Model Benchmarking
-I compared 10 different algorithms using 10-Fold Cross-Validation to ensure the results were consistent and not biased by a single data split.
+📊 Insert Boxplot Here
+Caption: CatBoost and XGBoost show the highest median accuracy with low variance, indicating strong and stable performance.
 
-Insert your Boxplot Image here! > Caption: Results show CatBoost and XGBoost as top performers in terms of both median accuracy and stability (low variance).
+⚡ 4. Hyperparameter Optimization
+Model: XGBoost
+Method: RandomizedSearchCV (2000 iterations)
+Evaluation Metric: Weighted F1-Score
 
-4. Hyperparameter Optimization
-Algorithm: XGBoost (chosen for its balance of speed and high predictive power).
+Why F1-Score?
+In insurance:
 
-Method: RandomizedSearchCV with 2,000 iterations.
+False negatives → underpricing risky drivers
+False positives → overpricing safe drivers
 
-Metric: Weighted F1-Score. (Explain why: In insurance, we must balance catching high-risk drivers without overpricing safe ones).
+F1 ensures a balanced trade-off between precision and recall.
 
-
-5. Key Findings for Jitin Jain
-1. The "Frequency" Predictors (Red)
-5_year_num_of_claims (0.22) & license_points (0.22): These are your strongest predictors. In actuarial terms, "past behavior predicts future behavior." If someone has points on their license or recent claims, their risk profile increases significantly.
-
-single_parent (0.15): This is a classic (and sometimes sensitive) rating factor. From a data perspective, it often correlates with higher stress or more chaotic driving environments (e.g., driving children).
-
-2. The "Stability" Predictors (Blue)
-value_of_home (-0.19) & income (-0.15): These are your strongest "Protective" factors. Higher wealth and homeownership often correlate with financial stability and more cautious behavior, leading to fewer claims.
-
-married (-0.13): Statistically, married drivers tend to be "safer" risks, which is why they often get lower premiums.
-
-3. The "Noise" (Grey)
-red_vehicle (-0.007): Look at that! It's almost zero. This confirms your earlier decision to drop this column. The "red cars are faster/riskier" idea is a myth in this dataset.
+📊 5. Key Insights (Business Interpretation)
+🔴 Frequency Predictors (High Risk Signals)
+5_year_num_of_claims (0.22)
+license_points (0.22)
+👉 Strongest predictors of future claims
+👉 Confirms actuarial principle: past behavior predicts future risk
+single_parent (0.15)
+👉 Correlates with higher claim frequency (contextual lifestyle factors)
+🔵 Stability Predictors (Protective Factors)
+value_of_home (-0.19)
+income (-0.15)
+👉 Financial stability → lower risk behavior
+married (-0.13)
+👉 Statistically safer drivers → lower premiums
+⚪ Noise Features
+red_vehicle (-0.007)
+👉 No predictive power
+👉 Confirms: “Red cars are riskier” is a myth
+🧠 Key Takeaways
+Combining statistical methods (VIF) with ML models improves reliability
+XGBoost provides the best balance of performance + interpretability
+Feature insights align with real-world insurance pricing logic
+🚀 Tech Stack
+Python
+Scikit-Learn
+XGBoost
+Pandas / NumPy
+Matplotlib / Seaborn
+📌 Future Improvements
+Add SHAP values for explainability
+Integrate real-time pricing API
+Explore dynamic pricing models (reinforcement learning)
